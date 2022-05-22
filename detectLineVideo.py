@@ -1,15 +1,20 @@
-#A Live Lane-Line Detection Systems built-in Python language is another Data Science project idea for beginners.
-#A human driver receives lane detecting instruction from lines placed on the road in this project. The lines placed 
-#on the roads indicate where the lanes are located for human driving. It also refers to the vehicle’s steering direction.
-#This application is crucial for the development of self-driving cars. This application for the Data Science Project 
-#is critical for the development of self-driving cars.
 
+"""
+ Live Lane-Line Detection Systems built-in Python language is another Data Science project idea for beginners.A human driver receives lane detecting instruction from
+ lines placed on the road in this project. The lines placed on the roads indicate where the lanes are located for human driving. It also refers to the vehicle’s
+ steering direction. This application is crucial for the development of self-driving cars. This application for the Data Science Project is critical for the development
+ of self-driving cars.
+ 
+ """
+
+# importing the libraries
 
 import matplotlib.pyplot as plt
 import cv2
 import numpy as np
 
 #Cropping the region of interest
+
 def region_of_interest(img,vertices):
     mask=np.zeros_like(img)
     match_mask_color=(255)
@@ -18,6 +23,7 @@ def region_of_interest(img,vertices):
     return masked_img
 
 #draw and complete the line which we detected by houghLines method
+
 def draw_the_lines(img,lines):
     print(lines)
     img=np.copy(img)
@@ -30,6 +36,7 @@ def draw_the_lines(img,lines):
             cv2.line(blank_image,(x1,y1),(x2,y2),(255,190,0),thickness=10)
 
     #Merge two images with weight  .8 is weight, 1 is beta and 0.0 is gamma
+
     img=cv2.addWeighted(img,0.8,blank_image,1,0.0)
     return img
 
@@ -52,11 +59,13 @@ def process(image):
     croped_Img=region_of_interest(edge_image,
                                 np.array([region_of_interest_vertices],np.int32),)
 
-    # Draw lines on the edges we got
-    # Hough Transform is a method that is used in image processing to detect
-    #  any shape, if that shape can be represented in mathematical form 
-    #It can detect the shape even if it is broken or distorted a little bit.
-
+    """
+    Draw lines on the edges we got.
+    - Hough Transform is a method that is used in image processing to detect any shape, if that shape can be represented in mathematical form. 
+      It can detect the shape even if it is broken or distorted a little bit.
+     
+    """
+    
     lines=cv2.HoughLinesP(croped_Img,
     rho=2,
     theta=np.pi/180,
@@ -68,8 +77,10 @@ def process(image):
     image_lines=draw_the_lines(image,lines)
     return image_lines
 
-#OpenCV provides the VideoCature() function which is used to work with the Camera.
-#In this case we are Loading the video from a file
+"""
+OpenCV provides the VideoCature() function which is used to work with the Camera.
+In this case we are Loading the video from a file
+"""
 capture=cv2.VideoCapture('lane_line.mp4')
 
 if( capture.isOpened()==False):
