@@ -1,12 +1,4 @@
 
-"""
-
-Live Lane-Line Detection Systems built-in Python language is another Data Science project idea for beginners.A human driver receives lane detecting instruction from
- lines placed on the road in this project. The lines placed on the roads indicate where the lanes are located for human driving. It also refers to the vehicle’s
- steering direction. This application is crucial for the development of self-driving cars. This application for the Data Science Project is critical for the development
- of self-driving cars.
- 
- """
 
 # importing the libraries
 
@@ -14,7 +6,7 @@ import matplotlib.pyplot as plt
 import cv2
 import numpy as np
 
-#Cropping the region of interest
+# Cropping the region of interest
 
 def region_of_interest(img,vertices):
     mask=np.zeros_like(img)
@@ -23,20 +15,20 @@ def region_of_interest(img,vertices):
     masked_img=cv2.bitwise_and(img,mask)
     return masked_img
 
-#draw and complete the line which we detected by houghLines method
+# draw and complete the line which we detected by houghLines method
 
 def draw_the_lines(img,lines):
     print(lines)
     img=np.copy(img)
     
-    #blank image of same dimensions
-    blank_image=np.zeros((img.shape[0],img.shape[1],3),dtype=np.uint8)
+ # blank image of same dimensions
+     blank_image=np.zeros((img.shape[0],img.shape[1],3),dtype=np.uint8)
     for line in lines :
-        #line is four coordinates of first initial point and second end point of line
+ # line is four coordinates of first initial point and second end point of line
         for x1,y1,x2,y2 in line :
             cv2.line(blank_image,(x1,y1),(x2,y2),(255,190,0),thickness=10)
 
-    #Merge two images with weight  .8 is weight, 1 is beta and 0.0 is gamma
+ # Merge two images with weight  .8 is weight, 1 is beta and 0.0 is gamma
 
     img=cv2.addWeighted(img,0.8,blank_image,1,0.0)
     return img
@@ -46,17 +38,17 @@ def process(image):
     height=image.shape[0]
     width=image.shape[1]
 
-    #Getting Verices of region of interest ie; triangle shape from midpoint of image
+    # Getting Verices of region of interest ie; triangle shape from midpoint of image
     region_of_interest_vertices=[(0,height),(width/2,height/2),(width,height)]
 
-    #Task: To find out the edges on road
-    #Converting image into grayscale
+    # Task: To find out the edges on road
+    # Converting image into grayscale
     gray_image=cv2.cvtColor(image,cv2.COLOR_RGB2GRAY)
 
-    #Canny is algorithm to find out edges of any object in image 
+    # Canny is algorithm to find out edges of any object in image 
     edge_image=cv2.Canny(gray_image,100,120)
 
-    #after converting in gray sclae and finding the edges have to crop the image not usefull
+    # after converting in gray sclae and finding the edges have to crop the image not usefull
     croped_Img=region_of_interest(edge_image,
                                 np.array([region_of_interest_vertices],np.int32),)
 
@@ -87,7 +79,7 @@ capture=cv2.VideoCapture('lane_line.mp4')
 if( capture.isOpened()==False):
     print("Something Wrong in Loading !")
 
-#If the video is opened then one by one frames will be extracted and sent for the further processing
+# If the video is opened then one by one frames will be extracted and sent for the further processing
 while(capture.isOpened()):
     ret,frame=capture.read() 
     frame=process(frame)
